@@ -5,7 +5,7 @@ import ToastProvider from '@/providers/toast-provider'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 
-import './globals.css'
+import './globals.scss'
 
 const font = Urbanist({ subsets: ['latin'] })
 
