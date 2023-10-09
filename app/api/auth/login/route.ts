@@ -50,6 +50,11 @@ export async function POST(req: NextRequest) {
                 value: "true",
                 maxAge: tokenMaxAge,
             }),
+            response.cookies.set({
+                name: "logged-user",
+                value: JSON.stringify(user),
+                maxAge: tokenMaxAge,
+            })
         ]);
 
         return response;

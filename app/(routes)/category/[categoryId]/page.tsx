@@ -37,8 +37,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const colors = await getColors();
   const category = await getCategory(params.categoryId);
 
-  console.log(params.categoryId);
-
   return (
     <div className="custom-container">
       <Container>

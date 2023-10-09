@@ -3,17 +3,18 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { toast } from "react-hot-toast";
 import { useOrigin } from "@/hooks/use-origin";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const Summary = () => {
   const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
+  const user = useCurrentUser();
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -36,6 +37,7 @@ const Summary = () => {
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
       productIds: items.map((item) => item.id),
       storeUrl: origin,
+      userId: user ? JSON.parse(user).id : null,
     });
 
     window.location = response.data.url;

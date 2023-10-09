@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 export default function RegisterPage() {
@@ -10,6 +11,8 @@ export default function RegisterPage() {
         formState: { errors },
         handleSubmit
     } = useForm<any>()
+
+    const router = useRouter();
     const onSubmit: SubmitHandler<any> = async (data) => {
         try {
             const response = await fetch('api/auth/register', {
@@ -31,7 +34,7 @@ export default function RegisterPage() {
         <div className="antialiased bg-gray-200 text-gray-900 font-sans">
             <div className="flex items-center h-screen w-full">
                 <div className="w-full bg-white rounded shadow-lg p-8 m-4 md:max-w-sm md:mx-auto">
-                    <span className="block w-full text-xl uppercase font-bold mb-4">Login</span>
+                    <span className="block w-full text-xl uppercase font-bold mb-4">Register</span>
                     <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-4 md:w-full">
                             <label htmlFor="name" className="block text-sm mb-1">Name</label>
@@ -69,9 +72,12 @@ export default function RegisterPage() {
                                 <p role="alert" style={{ fontSize: 12, color: 'red', paddingTop: 5 }}>Password is required</p>
                             )}
                         </div>
-                        <input value='Submit' type="submit" className="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" />
+                        <div className="flex justify-between">
+                            <button onClick={() => router.push('/')} className="bg-white text-blue-400 text-sm rounded">Back to Home page</button>
+                            <input value='Submit' type="submit" className="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" />
+                        </div>
+                        <button className="bg-white py-2 text-black text-sm rounded">Already have account? Login <span onClick={() => router.push('/login')} className="text-blue-400 text-sm">here.</span></button>
                     </form>
-                    <a className="text-blue-700 text-center text-sm" href="/login">Forgot password?</a>
                 </div>
             </div>
         </div>

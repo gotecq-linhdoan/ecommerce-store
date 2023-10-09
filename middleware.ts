@@ -62,7 +62,7 @@ export async function middleware(req: NextRequest) {
     }
 
     if (req.url.includes("/login") && authUser) {
-        return NextResponse.redirect(new URL("/profile", req.url));
+        return NextResponse.redirect(new URL("/", req.url));
     }
 
     return response;

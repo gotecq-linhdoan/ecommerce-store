@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 export default function LoginPage() {
@@ -8,6 +10,10 @@ export default function LoginPage() {
         formState: { errors },
         handleSubmit
     } = useForm<any>()
+
+    const [error, setError] = useState<any>();
+
+    const router = useRouter();
     const onSubmit: SubmitHandler<any> = async (data) => {
         try {
             const response = await fetch('api/auth/login', {
@@ -19,9 +25,16 @@ export default function LoginPage() {
             });
 
             const result = await response.json();
-            console.log("Success:", result);
+
+            if(result.status === 'success') {
+                
+                router.push('/');
+            }
+            
+            
         } catch (error) {
             console.error("Error:", error);
+            setError(error);
         }
     };
 
@@ -59,7 +72,11 @@ export default function LoginPage() {
                         </div>
                         <input value='Submit' type="submit" className="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" />
                     </form>
-                    <a className="text-blue-700 text-center text-sm" href="/login">Forgot password?</a>
+                    <div className="flex justify-between">
+                        <button onClick={() => router.push('/')} className="bg-white text-blue-400 text-sm rounded">Back to Home page</button>
+                        <a className="text-blue-700 text-center text-sm" href="/login">Forgot password?</a>
+                    </div>
+                    <button className="bg-white py-2 text-black text-sm rounded">Do not have account yet? Register <span onClick={() => router.push('/register')} className="text-blue-400 text-sm">here.</span></button>
                 </div>
             </div>
         </div>

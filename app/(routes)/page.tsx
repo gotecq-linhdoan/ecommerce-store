@@ -1,4 +1,3 @@
-import getBillboard from "@/actions/get-billboard";
 import getBillboards from "@/actions/get-billboards";
 import getProducts from "@/actions/get-products";
 import ProductList from "@/components/product-list";
