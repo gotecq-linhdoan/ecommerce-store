@@ -1,4 +1,3 @@
-import Container from '@/components/ui/container';
 import getOrders from '@/actions/get-order';
 import { OrderClient } from './component/client';
 
