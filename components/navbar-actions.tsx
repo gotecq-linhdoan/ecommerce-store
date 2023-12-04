@@ -3,16 +3,23 @@
 
 import { ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import Button from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
+import { useOrigin } from "@/hooks/use-origin";
 
 const NavbarActions = () => {
     const [isMounted, setIsMounted] = useState(false);
+    const [loginUser, setLoginUser] = useState<any>(null);
     const user = useCurrentUser();
+    const origin = useOrigin();
+
+    useEffect(() => {
+        setLoginUser(user);
+    }, [user]);
 
     useEffect(() => {
         setIsMounted(true);
@@ -27,7 +34,7 @@ const NavbarActions = () => {
 
     const logOut = async () => {
         try{
-            await fetch('api/auth/logout', {
+            await fetch(`${origin}/api/auth/logout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -35,21 +42,23 @@ const NavbarActions = () => {
             });
 
             router.push('/');
+            setLoginUser(null);
             
         } catch(error){
             console.log(error);
         }
     };
 
+
     return (
         <div className="ml-auto flex items-center gap-x-4">
-            {user
+            {loginUser
                 ? <div className="flex justify-between items-center">
                     <div onClick={() => router.push('/order')} className="flex px-4 py-2 border-r-2 rounded-l-full cursor-pointer bg-white justify-between gap-2 items-center ">
                         <span className="cursor-pointer text-sm font-bold text-white">
-                            {JSON.parse(user).name}
+                            {JSON.parse(loginUser).name}
                         </span>
-                        <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${JSON.parse(user).name}&size=22`} alt="" />
+                        <img className="rounded-full" src={`https://ui-avatars.com/api/?name=${JSON.parse(loginUser).name}&size=22`} alt="" />
                     </div>
                     <Button onClick={logOut} className={cn("flex items-center rounded-none rounded-r-full bg-black px-4 py-2")}>
                         <span className="text-sm font-bold text-white">

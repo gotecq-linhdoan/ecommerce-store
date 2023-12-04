@@ -13,7 +13,7 @@ const HomePage = async () => {
   return (
     <div className="custom-container">
       <Container>
-        <div className="space-y-10 pb-10">
+        <div className={`space-y-10 pb-10 ${products.length <= 0 && 'h-[calc(100vh-162px)]'}`}>
           <Billboard
             data={billboards[0]}
           />

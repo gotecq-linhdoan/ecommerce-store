@@ -23,8 +23,21 @@ export default function RegisterPage() {
                 body: JSON.stringify({ ...data, storeId: storeId }),
             });
 
-            const result = await response.json();
-            console.log("Success:", result);
+            await response.json();
+            const loginResonse = await fetch('api/auth/login', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await loginResonse.json();
+
+            if(result.status === 'success') {
+                
+                router.push('/');
+            }
         } catch (error) {
             console.error("Error:", error);
         }
